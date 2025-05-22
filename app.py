@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-API_KEY = 'AIzaSyCip740g0Wl2SEshz-8SkkO_9YfISoo5cI'  # Pon tu API key aquí
+API_KEY = os.environ.get('API_KEY')
 ai.configure(api_key=API_KEY)
 
 model = ai.GenerativeModel("gemini-2.0-flash")
