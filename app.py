@@ -1,8 +1,12 @@
 from flask import Flask, request, jsonify
 import google.generativeai as ai
 import os
+from flask_cors import CORS  # Para habilitar CORS
 
 app = Flask(__name__)
+
+# Habilitar CORS
+CORS(app)  # Permite solicitudes de otros dominios
 
 # Configuración de la API de Google Gemini
 API_KEY = os.environ.get('API_KEY')  # Obtén la API Key desde la variable de entorno
@@ -35,5 +39,6 @@ def chat_api():
     return jsonify({"response": response.text})
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Usa el puerto asignado por Render
-    app.run(host='0.0.0.0', port=port)       # Escucha en todas las interfaces y en el puerto correcto
+    # Usa el puerto asignado por Render (o 5000 local si no está disponible)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)  # Escucha en todas las interfaces y en el puerto correcto
