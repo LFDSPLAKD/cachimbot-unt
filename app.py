@@ -5,7 +5,10 @@ import os
 app = Flask(__name__)
 
 # Configuración de la API de Google Gemini
-API_KEY = 'AIzaSyCip740g0Wl2SEshz-8SkkO_9YfISoo5cI'  # Asegúrate de tener tu API Key aquí
+API_KEY = os.environ.get('API_KEY')  # Obtén la API Key desde la variable de entorno
+if not API_KEY:
+    raise ValueError("API_KEY no está definida como variable de entorno")  # Asegúrate de que la API Key esté configurada correctamente
+
 ai.configure(api_key=API_KEY)
 
 model = ai.GenerativeModel("gemini-2.0-flash")
@@ -32,5 +35,5 @@ def chat_api():
     return jsonify({"response": response.text})
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Usa el puerto asignado por Render o 5000 local
-    app.run(host='0.0.0.0', port=port)       # Escucha en todas las interfaces
+    port = int(os.environ.get("PORT", 5000))  # Usa el puerto asignado por Render
+    app.run(host='0.0.0.0', port=port)       # Escucha en todas las interfaces y en el puerto correcto
